@@ -21,5 +21,14 @@ export const TimelineDot = memo(({ cvEventType, sx }: ITimelineDotProps) => {
     }
   }, []);
 
-  return <MUITimelineDot sx={{ m: 0 }}>{getTimelineDotIcon()}</MUITimelineDot>;
+  return (
+    <MUITimelineDot
+      sx={(theme) => ({
+        m: 0,
+        backgroundColor: theme.palette.background.paper,
+      })}
+    >
+      {getTimelineDotIcon()}
+    </MUITimelineDot>
+  );
 });

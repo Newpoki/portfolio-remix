@@ -21,6 +21,7 @@
     "@remix-run/serve": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-markdown": "^6.0.0",
     "remix": "latest"
   },
   "devDependencies": {
