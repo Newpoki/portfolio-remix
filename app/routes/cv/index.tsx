@@ -5,20 +5,23 @@ import {
   TimelineOppositeContent,
   TimelineSeparator,
 } from "@mui/lab";
-import { useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { CVEvent, PrismaClient } from "@prisma/client";
-import { useLoaderData } from "remix";
+import { json, useLoaderData, useTransition } from "remix";
 import { TimelineContent } from "./timeline-content";
 import { TimelineDot } from "./timeline-dot";
 
 export const loader = async () => {
   const prisma = new PrismaClient();
 
-  const cvEvents = await prisma.cVEvent.findMany();
+  const cvEvents = await prisma.cVEvent.findMany({
+    orderBy: {
+      startedAt: "desc",
+    },
+  });
 
-  console.log({ cvEvents });
-  return cvEvents;
+  return json(cvEvents);
 };
 
 const Cv = () => {
@@ -26,26 +29,37 @@ const Cv = () => {
   const theme = useTheme();
   const isUpperMd = useMediaQuery(theme.breakpoints.up("md"));
 
-  console.log({ isUpperMd });
-
   return (
-    <Timeline position={isUpperMd ? "alternate" : "right"}>
-      {cvEvents.map((cvEvent) => {
-        return (
-          <TimelineItem>
-            {!isUpperMd && <TimelineOppositeContent sx={{ display: "none" }} />}
-            <TimelineSeparator sx={{ mx: 2 }}>
-              <TimelineDot cvEventType={cvEvent.type} />
-              <TimelineConnector
-                sx={(theme) => ({ backgroundColor: theme.palette.background.paper })}
-              />
-            </TimelineSeparator>
+    <Box>
+      <Timeline
+        position={isUpperMd ? "alternate" : "right"}
+        sx={{
+          padding: { md: 4 },
+        }}
+      >
+        {cvEvents.map((cvEvent) => {
+          return (
+            <TimelineItem
+              sx={{
+                ":before": { display: { xs: "none", md: "block" } },
+                "& :nth-of-type(even).MuiTimelineContent-root": { textAlign: "left" },
+              }}
+              key={cvEvent.id}
+            >
+              {!isUpperMd && <TimelineOppositeContent sx={{ display: "none" }} />}
+              <TimelineSeparator sx={{ mx: 2 }}>
+                <TimelineDot cvEventType={cvEvent.type} />
+                <TimelineConnector
+                  sx={(theme) => ({ backgroundColor: theme.palette.background.paper })}
+                />
+              </TimelineSeparator>
 
-            <TimelineContent cvEvent={cvEvent} />
-          </TimelineItem>
-        );
-      })}
-    </Timeline>
+              <TimelineContent cvEvent={cvEvent} />
+            </TimelineItem>
+          );
+        })}
+      </Timeline>
+    </Box>
   );
 };
 

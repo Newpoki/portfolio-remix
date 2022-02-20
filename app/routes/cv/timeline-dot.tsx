@@ -1,6 +1,6 @@
 import { CVEvent, CvEventType } from "@prisma/client";
 import { TimelineDot as MUITimelineDot } from "@mui/lab";
-import { memo, useCallback } from "react";
+import { memo, useMemo } from "react";
 import { CardMembership, ChildFriendlyOutlined, WorkOutline } from "@mui/icons-material";
 import { SxProps } from "@mui/material";
 
@@ -10,7 +10,7 @@ type ITimelineDotProps = {
 };
 
 export const TimelineDot = memo(({ cvEventType, sx }: ITimelineDotProps) => {
-  const getTimelineDotIcon = useCallback(() => {
+  const timelineDotIcon = useMemo(() => {
     switch (cvEventType) {
       case CvEventType.WORK:
         return <WorkOutline color="primary" sx={{ ...sx }} />;
@@ -28,7 +28,7 @@ export const TimelineDot = memo(({ cvEventType, sx }: ITimelineDotProps) => {
         backgroundColor: theme.palette.background.paper,
       })}
     >
-      {getTimelineDotIcon()}
+      {timelineDotIcon}
     </MUITimelineDot>
   );
 });

@@ -1,8 +1,8 @@
 import { memo } from "react";
 import ReactMarkdown from "react-markdown";
-import { List, ListItem, Typography } from "@mui/material";
+import { List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { teal } from "@mui/material/colors";
-
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 interface IMarkdownProps {
   children: string;
 }
@@ -31,16 +31,25 @@ export const Markdown = memo(({ children }: IMarkdownProps) => {
           );
         },
         ul: ({ children }) => {
-          return <List sx={{ fontSize: 13 }}>{children}</List>;
+          return <List sx={{ listStyle: "initial", ml: 5 }}>{children}</List>;
         },
         li: ({ children }) => {
-          return <ListItem sx={{ p: 0 }}>{children}</ListItem>;
+          return (
+            <ListItem sx={{ p: 0, display: "list-item", listStyleType: "circle" }}>
+              <ListItemText primaryTypographyProps={{ fontSize: 13 }} sx={{ m: 0 }}>
+                {children}
+              </ListItemText>
+            </ListItem>
+          );
         },
         blockquote: ({ children }) => {
           return (
             <Typography
               component="blockquote"
-              sx={(theme) => ({ fontStyle: theme.typography.caption })}
+              variant="caption"
+              sx={(theme) => ({
+                fontStyle: "italic",
+              })}
             >
               {children}
             </Typography>

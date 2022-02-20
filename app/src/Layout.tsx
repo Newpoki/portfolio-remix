@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Box
         sx={{
           minHeight: "100vh",
-          width: "100vw",
+          width: "100%",
           backgroundImage: "linear-gradient(to top, #fddb92 0%, #d1fdff 100%)",
           display: "flex",
           flexDirection: "column",

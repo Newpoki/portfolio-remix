@@ -23,6 +23,7 @@ model CVEvent {
   city      String
   country   String
   startedAt String
+  endedAt   String?
   title     String
   type      CvEventType
 }
